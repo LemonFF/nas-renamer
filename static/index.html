@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAS Renamer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="brand">NAS 重命名工具</div>
+            <div class="flex items-center gap-4">
+                <a href="#" id="nav-files" class="active">文件</a>
+                <a href="#" id="nav-history">历史</a>
+                <a href="#" id="nav-settings">设置</a>
+                <button id="theme-toggle" class="btn btn-secondary">🌙</button>
+                <button id="logout-btn" class="btn btn-secondary text-danger">退出</button>
+            </div>
+        </nav>
+
+        <main class="main-content" id="app-view">
+            <!-- Dynamic Content Here -->
+        </main>
+    </div>
+
+    <!-- Templates or Modals can go here -->
+    <div id="modal-container"></div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

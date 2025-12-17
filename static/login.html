@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NAS Renamer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <h2 class="text-center" style="margin-top: 0;">NAS 重命名工具</h2>
+        <form id="loginForm">
+            <div style="margin-bottom: 1rem;">
+                <label>密码</label>
+                <input type="password" id="password" class="form-control" required autofocus>
+            </div>
+            <div id="errorMsg" class="text-danger text-center hidden" style="margin-bottom: 1rem;"></div>
+            <button type="submit" class="btn btn-primary w-full">登录</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { API } from './js/api.js';
+
+        const loginForm = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+
+            try {
+                const data = await API.login(password);
+                localStorage.setItem('auth_token', data.token);
+                window.location.href = '/index.html';
+            } catch (err) {
+                errorMsg.textContent = err.message;
+                errorMsg.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>
