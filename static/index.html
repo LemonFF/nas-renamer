@@ -1,33 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="zh-CN" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAS Renamer</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>NAS Renamer - 智能重命名工具</title>
+    <!-- @author weifengl -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="app-container">
-        <nav class="navbar">
-            <div class="brand">NAS 重命名工具</div>
-            <div class="flex items-center gap-4">
-                <a href="#" id="nav-files" class="active">文件</a>
-                <a href="#" id="nav-history">历史</a>
-                <a href="#" id="nav-settings">设置</a>
-                <button id="theme-toggle" class="btn btn-secondary">🌙</button>
-                <button id="logout-btn" class="btn btn-secondary text-danger">退出</button>
+<body class="bg-base-200 text-base-content min-h-screen flex flex-col">
+    <div class="app-container flex-1 flex flex-col">
+        <header class="navbar bg-base-100 shadow-sm border-b border-base-300 px-4 sm:px-8 sticky top-0 z-50">
+            <div class="flex-1">
+                <a class="btn btn-ghost text-xl font-bold text-primary normal-case gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                    NAS Renamer
+                </a>
             </div>
-        </nav>
+            <div class="flex-none gap-2">
+                <div class="hidden sm:flex items-center gap-1 mr-4">
+                    <a href="#" id="nav-files" class="btn btn-ghost btn-sm rounded-lg active">文件</a>
+                    <a href="#" id="nav-history" class="btn btn-ghost btn-sm rounded-lg">历史</a>
+                    <a href="#" id="nav-settings" class="btn btn-ghost btn-sm rounded-lg">设置</a>
+                </div>
+                <!-- Mobile Menu -->
+                <div class="dropdown dropdown-end sm:hidden">
+                    <label tabindex="0" class="btn btn-ghost btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h7" />
+                        </svg>
+                    </label>
+                    <ul tabindex="0"
+                        class="menu menu-sm dropdown-content mt-3 z-[2] p-2 shadow-xl bg-base-100 rounded-box w-52 border border-base-300">
+                        <li><a href="#" id="nav-files-mobile">文件</a></li>
+                        <li><a href="#" id="nav-history-mobile">历史</a></li>
+                        <li><a href="#" id="nav-settings-mobile">设置</a></li>
+                    </ul>
+                </div>
 
-        <main class="main-content" id="app-view">
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle" class="btn btn-ghost btn-circle hover:bg-base-300 transition-colors">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                    <button id="logout-btn" class="btn btn-outline btn-error btn-sm border-2">退出</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full" id="app-view">
             <!-- Dynamic Content Here -->
+            <div class="flex flex-col items-center justify-center h-64 opacity-50">
+                <span class="loading loading-spinner loading-lg text-primary mb-4"></span>
+                <p class="text-sm font-medium">正在加载资源...</p>
+            </div>
         </main>
+
+        <footer class="footer footer-center p-4 bg-base-100 text-base-content border-t border-base-300">
+            <div>
+                <p>© 2025 NAS Renamer - 智能文件重命名助手</p>
+            </div>
+        </footer>
     </div>
 
-    <!-- Templates or Modals can go here -->
-    <div id="modal-container"></div>
+    <!-- Modal Container -->
+    <div id="modal-container" class="z-[100]"></div>
 
     <script type="module" src="js/app.js"></script>
 </body>

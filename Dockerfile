@@ -4,7 +4,7 @@ FROM alpine:latest
 WORKDIR /app
 
 # Ensure we have CA certs for HTTPS
-RUN apk add --no-cache ca-certificates
+# RUN apk add --no-cache ca-certificates
 
 # Copy the pre-built binary from host
 # Note: You must build it first!

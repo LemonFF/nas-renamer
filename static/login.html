@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - NAS Renamer</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>登录 - NAS Renamer</title>
+    <!-- @author weifengl -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 400px;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
 
-<body>
-    <div class="login-card">
-        <h2 class="text-center" style="margin-top: 0;">NAS 重命名工具</h2>
-        <form id="loginForm">
-            <div style="margin-bottom: 1rem;">
-                <label>密码</label>
-                <input type="password" id="password" class="form-control" required autofocus>
-            </div>
-            <div id="errorMsg" class="text-danger text-center hidden" style="margin-bottom: 1rem;"></div>
-            <button type="submit" class="btn btn-primary w-full">登录</button>
-        </form>
+<body class="min-h-screen bg-base-200 flex items-center justify-center p-4">
+    <div class="card w-full max-w-sm bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title justify-center text-2xl font-bold mb-4 text-primary">NAS 重命名工具</h2>
+            <form id="loginForm" class="space-y-4">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-medium">密码</span>
+                    </label>
+                    <input type="password" id="password" placeholder="请输入访问密码" 
+                        class="input input-bordered focus:input-primary w-full transition-all" required autofocus />
+                </div>
+                
+                <div id="errorMsg" class="alert alert-error hidden py-2 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span id="errorText"></span>
+                </div>
+
+                <div class="card-actions mt-6">
+                    <button type="submit" class="btn btn-primary btn-block">登录</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script type="module">
@@ -44,6 +46,7 @@
 
         const loginForm = document.getElementById('loginForm');
         const errorMsg = document.getElementById('errorMsg');
+        const errorText = document.getElementById('errorText');
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -54,7 +57,7 @@
                 localStorage.setItem('auth_token', data.token);
                 window.location.href = '/index.html';
             } catch (err) {
-                errorMsg.textContent = err.message;
+                errorText.textContent = err.message;
                 errorMsg.classList.remove('hidden');
             }
         });
