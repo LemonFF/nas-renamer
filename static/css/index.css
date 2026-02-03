@@ -1,0 +1,142 @@
+/**
+ * NAS Renamer - Design System
+ * @author weifengl
+ * Style: Bento Glass
+ */
+
+:root {
+    /* Color Palette - Slate & Indigo */
+    --primary: #6366f1;
+    --primary-focus: #4f46e5;
+    --primary-content: #ffffff;
+    
+    --bg-base: #f8fafc;
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(226, 232, 240, 0.8);
+    
+    --radius-lg: 1.25rem;
+    --radius-md: 0.75rem;
+    
+    --glass-blur: 12px;
+}
+
+[data-theme="dark"] {
+    --bg-base: #020617;
+    --bg-card: rgba(15, 23, 42, 0.6);
+    --border-color: rgba(30, 41, 59, 0.5);
+}
+
+/* Global Reset & Base */
+body {
+    background-color: var(--bg-base);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
+    transition: background-color 0.3s ease;
+}
+
+/* Bento Glass Component */
+.glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    border-radius: var(--radius-lg);
+}
+
+.glass-card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07);
+}
+
+/* Navbar Enhancement */
+.navbar-glass {
+    background: rgba(var(--bg-card), 0.8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+/* Breadcrumbs Styling */
+.breadcrumbs-pill {
+    padding: 0.5rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+}
+
+/* Table Enhancements */
+.table-modern {
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+}
+
+.table-modern tr {
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.table-modern tbody tr {
+    background: var(--bg-card);
+    margin-bottom: 0.5rem;
+}
+
+.table-modern td:first-child {
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+}
+
+.table-modern td:last-child {
+    border-top-right-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+}
+
+.table-modern tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: white;
+}
+
+[data-theme="dark"] .table-modern tbody tr:hover {
+    background: rgba(30, 41, 59, 0.8);
+}
+
+/* Step Indicator */
+.steps .step:before {
+    background-color: var(--border-color) !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.4);
+}

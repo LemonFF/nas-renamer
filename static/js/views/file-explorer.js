@@ -4,25 +4,25 @@ import { openRenamer } from './renamer.js';
 
 export async function renderFileExplorer(container) {
     container.innerHTML = `
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div id="breadcrumbs" class="text-sm breadcrumbs overflow-x-auto w-full sm:w-auto bg-base-100 p-2 sm:p-3 rounded-lg shadow-sm border border-base-300"></div>
-            <button id="btn-batch-rename" class="btn btn-primary shadow-lg hidden w-full sm:w-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                批量重命名
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8 animate-fade-in">
+            <div id="breadcrumbs" class="breadcrumbs-pill text-sm overflow-x-auto w-full sm:w-auto"></div>
+            <button id="btn-batch-rename" class="btn btn-primary btn-md rounded-2xl shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hidden w-full sm:w-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                <span class="font-bold">智能批量重命名</span>
             </button>
         </div>
-        <div class="bg-base-100 rounded-xl shadow-xl border border-base-300 overflow-hidden" id="file-list-container">
-            <div class="overflow-x-auto">
-                <table class="table table-zebra w-full">
+        <div class="glass-card overflow-hidden animate-fade-in" style="animation-delay: 0.1s" id="file-list-container">
+            <div class="overflow-x-auto p-2 sm:p-4">
+                <table class="table table-modern w-full border-separate">
                     <thead>
-                        <tr class="bg-base-200">
-                            <th class="w-12"></th>
-                            <th class="font-bold">名称</th>
-                            <th class="text-right font-bold w-32">大小</th>
+                        <tr class="text-base-content/60 border-none">
+                            <th class="w-12 bg-transparent"></th>
+                            <th class="font-bold bg-transparent">文件名</th>
+                            <th class="text-right font-bold w-32 bg-transparent">大小</th>
                         </tr>
                     </thead>
                     <tbody id="file-list">
-                        <tr><td colspan="3"><div class="flex justify-center py-10"><span class="loading loading-spinner loading-md text-primary"></span></div></td></tr>
+                        <tr><td colspan="3"><div class="flex justify-center py-20"><span class="loading loading-spinner loading-lg text-primary/40"></span></div></td></tr>
                     </tbody>
                 </table>
             </div>

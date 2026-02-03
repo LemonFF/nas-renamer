@@ -2,12 +2,14 @@ import { API } from '../api.js';
 
 export async function renderHistory(container) {
     container.innerHTML = `
-        <div class="flex items-center gap-2 mb-6 sm:m-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <h2 class="text-2xl font-bold">操作历史</h2>
+        <div class="flex items-center gap-3 mb-8 sm:mt-2 animate-fade-in">
+            <div class="p-3 bg-primary/10 rounded-2xl text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <h2 class="text-2xl font-black tracking-tight">操作历史</h2>
         </div>
-        <div id="history-list" class="space-y-4 sm:m-4">
-            <div class="flex justify-center py-10"><span class="loading loading-spinner loading-lg text-primary"></span></div>
+        <div id="history-list" class="space-y-4 animate-fade-in" style="animation-delay: 0.1s">
+            <div class="flex justify-center py-20"><span class="loading loading-spinner loading-lg text-primary/40"></span></div>
         </div>
     `;
 
@@ -42,26 +44,28 @@ export async function renderHistory(container) {
         listContainer.innerHTML = items.map(item => {
             const date = new Date(item.timestamp * 1000).toLocaleString();
             return `
-                <div class="card bg-base-100 shadow-lg border border-base-300 hover:border-primary transition-colors">
-                    <div class="card-body p-4 sm:p-6">
-                        <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
-                            <div class="space-y-1 flex-1">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <span class="badge badge-primary badge-outline font-mono">ID: ${item.id.slice(0, 8)}</span>
-                                    <span class="badge badge-ghost text-xs">${item.mode}</span>
+                <div class="glass-card hover:border-primary/50 transition-all duration-300">
+                    <div class="card-body p-5 sm:p-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start gap-6">
+                            <div class="space-y-3 flex-1 min-w-0">
+                                <div class="flex items-center flex-wrap gap-2">
+                                    <span class="badge badge-primary bg-primary/10 border-none text-primary font-mono text-xs px-3">ID: ${item.id.slice(0, 8)}</span>
+                                    <span class="badge badge-ghost bg-base-300/50 border-none text-[10px] uppercase font-bold tracking-wider">${item.mode}模式</span>
                                 </div>
-                                <div class="text-sm opacity-70 flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    ${date}
-                                </div>
-                                <div class="text-sm opacity-70 flex items-center gap-1 truncate max-w-lg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
-                                    ${item.base_path}
+                                <div class="space-y-1.5">
+                                    <div class="text-sm font-medium flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                        <span class="opacity-80">${date}</span>
+                                    </div>
+                                    <div class="text-sm font-medium flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-40 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                        <span class="opacity-60 truncate block">${item.base_path}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="w-full sm:w-auto mt-2 sm:mt-0">
-                                <button class="btn btn-outline btn-warning btn-sm btn-block sm:btn-md btn-undo shadow-sm" data-id="${item.id}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
+                            <div class="w-full sm:w-auto self-end sm:self-center">
+                                <button class="btn btn-outline btn-warning border-warning/30 hover:bg-warning/10 hover:border-warning btn-sm px-6 rounded-xl btn-undo group" data-id="${item.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 transition-transform group-hover:-rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
                                     撤销还原
                                 </button>
                             </div>

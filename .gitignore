@@ -1,10 +1,9 @@
+/openspec/
+/.agent/
+/.history/
+*.exe
 my-app-v1.tar
 nas-renamer
 需求说明书.md
 test_optimization.sh
 *.tar
-.history/1765462423_5e00991d-716d-498c-87a2-00b71f5b05a0.json
-.agent/rules/project.md
-
-/.history
-*.exe

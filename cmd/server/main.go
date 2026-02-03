@@ -40,6 +40,7 @@ func main() {
 	// r.Static expects local filesystem path.
 	r.Static("/css", staticDir+"/css")
 	r.Static("/js", staticDir+"/js")
+	r.Static("/lib", staticDir+"/lib")
 	r.StaticFile("/index.html", staticDir+"/index.html")
 	r.StaticFile("/login.html", staticDir+"/login.html")
 	r.StaticFile("/", staticDir+"/index.html")
