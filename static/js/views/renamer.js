@@ -270,18 +270,21 @@ export function openRenamer(currentPath, onSuccess) {
             let itemsHtml = changedItems.map(item => {
                 const isConflict = item.status === 'conflict';
                 return `
-                    <tr class="${isConflict ? 'bg-error/10 text-error' : ''} bg-success/5">
-                        <td class="max-w-[200px] truncate text-xs opacity-70">${item.original_name}</td>
-                        <td class="max-w-[200px] truncate font-bold text-sm text-primary">${item.new_name}</td>
-                        <td>
+                    <div class="card bg-base-100 border ${isConflict ? 'border-error bg-error/5' : 'border-success/30 bg-success/5'} shadow-sm">
+                        <div class="card-body p-4 space-y-3">
+                            <div class="text-xs opacity-50 uppercase tracking-wide">原始名称</div>
+                            <p class="text-sm break-words line-through opacity-70">${item.original_name}</p>
+                            <div class="divider my-1">↓</div>
+                            <div class="text-xs opacity-50 uppercase tracking-wide">新名称</div>
+                            <p class="text-sm break-words font-bold ${isConflict ? 'text-error' : 'text-primary'}">${item.new_name}</p>
                             ${isConflict ? `
-                                <div class="badge badge-error gap-1">
+                                <div class="badge badge-error gap-1 mt-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                                     ${item.message}
                                 </div>
-                            ` : `<div class="badge badge-success badge-sm">就绪</div>`}
-                        </td>
-                    </tr>
+                            ` : '<div class="badge badge-success badge-sm mt-2">就绪</div>'}
+                        </div>
+                    </div>
                 `;
             }).join('');
 
@@ -292,13 +295,8 @@ export function openRenamer(currentPath, onSuccess) {
                         <span>合计发现 ${res.items.length} 个任务，其中 ${changedItems.length} 个将被修改。</span>
                     </div>
 
-                    <div class="overflow-x-auto border border-base-300 rounded-xl">
-                        <table class="table table-sm table-zebra w-full">
-                            <thead class="bg-base-200">
-                                <tr><th>原始名称</th><th>预览结果</th><th>状态</th></tr>
-                            </thead>
-                            <tbody>${itemsHtml}</tbody>
-                        </table>
+                    <div class="flex flex-col gap-3 md:grid md:grid-cols-2">
+                        ${itemsHtml}
                     </div>
                 </div>
             `;

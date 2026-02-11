@@ -11,20 +11,11 @@ export async function renderFileExplorer(container) {
                 <span class="font-bold">智能批量重命名</span>
             </button>
         </div>
-        <div class="glass-card overflow-hidden animate-fade-in" style="animation-delay: 0.1s" id="file-list-container">
-            <div class="overflow-x-auto p-2 sm:p-4">
-                <table class="table table-modern w-full border-separate">
-                    <thead>
-                        <tr class="text-base-content/60 border-none">
-                            <th class="w-12 bg-transparent"></th>
-                            <th class="font-bold bg-transparent">文件名</th>
-                            <th class="text-right font-bold w-32 bg-transparent">大小</th>
-                        </tr>
-                    </thead>
-                    <tbody id="file-list">
-                        <tr><td colspan="3"><div class="flex justify-center py-20"><span class="loading loading-spinner loading-lg text-primary/40"></span></div></td></tr>
-                    </tbody>
-                </table>
+        <div class="glass-card overflow-hidden animate-fade-in" style="animation-delay: 0.1s">
+            <div class="p-2 sm:p-4">
+                <div id="file-list" class="flex flex-col gap-2 md:grid md:grid-cols-2 lg:grid-cols-3">
+                    <div class="flex justify-center py-20 col-span-full"><span class="loading loading-spinner loading-lg text-primary/40"></span></div>
+                </div>
             </div>
         </div>
     `;
@@ -57,19 +48,29 @@ export async function renderFileExplorer(container) {
 
     function renderBreadcrumbs(path) {
         const parts = path.split('/').filter(p => p);
+        const isMobile = window.innerWidth < 768;
         let html = `<li><a href="#" data-path=""><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>根目录</a></li>`;
         let acc = '';
 
-        parts.forEach((p, i) => {
-            acc += '/' + p;
-            if (i === parts.length - 1) {
-                html += `<li class="font-bold text-primary max-w-[200px] truncate">${p}</li>`;
-            } else {
-                html += `<li><a href="#" data-path="${acc}">${p}</a></li>`;
-            }
-        });
+        // Mobile: collapse middle paths if depth > 2
+        if (isMobile && parts.length > 2) {
+            // Show only root, ..., and current
+            html += `<li class="opacity-50">...</li>`;
+            const currentFolder = parts[parts.length - 1];
+            html += `<li class="font-bold text-primary break-words max-w-[150px]">${currentFolder}</li>`;
+        } else {
+            // Desktop or short path: show all
+            parts.forEach((p, i) => {
+                acc += '/' + p;
+                if (i === parts.length - 1) {
+                    html += `<li class="font-bold text-primary break-words max-w-[200px]">${p}</li>`;
+                } else {
+                    html += `<li><a href="#" data-path="${acc}">${p}</a></li>`;
+                }
+            });
+        }
 
-        breadcrumbContainer.innerHTML = `<ul class="flex items-center">${html}</ul>`;
+        breadcrumbContainer.innerHTML = `<ul class="flex items-center flex-wrap gap-1">${html}</ul>`;
 
         breadcrumbContainer.querySelectorAll('a').forEach(a => {
             a.addEventListener('click', (e) => {
@@ -81,7 +82,7 @@ export async function renderFileExplorer(container) {
 
     function renderList(items) {
         if (!items || items.length === 0) {
-            fileListContainer.innerHTML = '<tr><td colspan="3" class="text-center py-10 text-base-content/50">空目录</td></tr>';
+            fileListContainer.innerHTML = '<div class="text-center py-10 text-base-content/50 col-span-full">空目录</div>';
             btnRename.classList.add('hidden');
             return;
         }
@@ -90,16 +91,22 @@ export async function renderFileExplorer(container) {
 
         fileListContainer.innerHTML = items.map(item => {
             const icon = item.is_dir ?
-                '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>' :
-                '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>';
+                '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>' :
+                '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>';
             const size = item.is_dir ? '-' : formatSize(item.size);
 
             return `
-                <tr class="hover cursor-pointer file-item active:bg-base-300 transition-colors" data-path="${item.path}" data-isdir="${item.is_dir}">
-                    <td>${icon}</td>
-                    <td class="font-medium">${item.name}</td>
-                    <td class="text-right text-sm opacity-70 font-mono">${size}</td>
-                </tr>
+                <div class="card card-compact bg-base-100 shadow-sm hover:shadow-md hover:bg-base-200/50 cursor-pointer file-item active:scale-[0.98] transition-all min-h-[56px]" data-path="${item.path}" data-isdir="${item.is_dir}">
+                    <div class="card-body p-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-shrink-0">${icon}</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-sm break-words overflow-wrap-anywhere">${item.name}</p>
+                            </div>
+                            <span class="text-xs opacity-60 flex-shrink-0">${size}</span>
+                        </div>
+                    </div>
+                </div>
             `;
         }).join('');
 

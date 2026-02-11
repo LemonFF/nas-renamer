@@ -9,14 +9,14 @@
     --primary: #6366f1;
     --primary-focus: #4f46e5;
     --primary-content: #ffffff;
-    
+
     --bg-base: #f8fafc;
     --bg-card: rgba(255, 255, 255, 0.7);
     --border-color: rgba(226, 232, 240, 0.8);
-    
+
     --radius-lg: 1.25rem;
     --radius-md: 0.75rem;
-    
+
     --glass-blur: 12px;
 }
 
@@ -29,7 +29,7 @@
 /* Global Reset & Base */
 body {
     background-color: var(--bg-base);
-    background-image: 
+    background-image:
         radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
         radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
     background-attachment: fixed;
@@ -114,8 +114,15 @@ body {
 
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .animate-fade-in {
@@ -139,4 +146,94 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(99, 102, 241, 0.4);
+}
+
+/* Mobile Optimizations */
+/* @author weifengl */
+
+/* Touch-friendly target areas */
+.touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile card - compact padding on mobile, standard on desktop */
+.mobile-card {
+    padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .mobile-card {
+        padding: 1.5rem;
+    }
+}
+
+/* Touch feedback for all interactive elements */
+button:active,
+.btn:active,
+.card:active,
+a:active,
+[role="button"]:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Ensure card-compact works well on mobile */
+.card-compact .card-body {
+    padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+    .card-compact .card-body {
+        padding: 1rem;
+    }
+}
+
+/* Mobile-friendly spacing */
+@media (max-width: 767px) {
+
+    /* Reduce vertical spacing on mobile */
+    .space-y-10>*+* {
+        margin-top: 1.5rem !important;
+    }
+
+    .space-y-6>*+* {
+        margin-top: 1rem !important;
+    }
+}
+
+/* Dark mode mobile readability */
+@media (max-width: 767px) {
+    [data-theme="dark"] .card {
+        background: rgba(15, 23, 42, 0.9);
+    }
+
+    [data-theme="dark"] .text-sm,
+    [data-theme="dark"] .text-xs {
+        opacity: 0.9;
+    }
+}
+
+/* Ensure proper text wrapping on mobile */
+.break-words {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 767px) {
+    .breadcrumbs-pill {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .breadcrumbs-pill::-webkit-scrollbar {
+        height: 2px;
+    }
 }
